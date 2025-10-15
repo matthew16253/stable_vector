@@ -2,8 +2,6 @@ my_test: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libasan_preinit.o \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libasan.so \
   CMakeFiles/my_test.dir/my_test.cpp.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -38,10 +36,6 @@ my_test: \
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libasan_preinit.o:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libasan.so:
 
 CMakeFiles/my_test.dir/my_test.cpp.o:
 

@@ -6,11 +6,8 @@
 
 int main()
 {
-	my_adt::stable_vector<int> vec{std::from_range_t{}, std::views::iota(1, 10)};
-
-	// for (auto it = vec.begin(); it != vec.end(); it++)
-	// {
-	// 	std::cout << *it << "\n";
-	// }
-	std::copy(vec.begin(), vec.end(), std::ostream_iterator<int>(std::cout, ", "));
+	my_adt::stable_vector<int> vec({1, 2, 3});
+	my_adt::stable_vector<int> vec2({1, 2, 3});
+	vec2 = vec;
+	std::copy(vec2.crbegin(), vec2.crend(), std::ostream_iterator<int>(std::cout, ", "));
 }

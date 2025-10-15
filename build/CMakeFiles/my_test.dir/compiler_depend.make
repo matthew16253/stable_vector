@@ -306,8 +306,6 @@ CMakeFiles/my_test.dir/my_test.cpp.o: /home/admin/projects/programs/cpp_programs
 my_test: /usr/lib/Scrt1.o \
   /usr/lib/crti.o \
   /usr/lib/crtn.o \
-  /usr/lib/libasan.so \
-  /usr/lib/libasan_preinit.o \
   /usr/lib/libc.so \
   /usr/lib/libgcc_s.so \
   /usr/lib/libgcc_s.so.1 \
@@ -343,8 +341,6 @@ my_test: /usr/lib/Scrt1.o \
 /usr/lib/libm.so:
 
 /usr/lib/libgcc_s.so.1:
-
-/usr/lib/libasan_preinit.o:
 
 /usr/lib/crti.o:
 
@@ -567,8 +563,6 @@ my_test: /usr/lib/Scrt1.o \
 /usr/include/bits/stdlib-float.h:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h:
-
-/usr/lib/libasan.so:
 
 /usr/include/bits/types/__fpos_t.h:
 
