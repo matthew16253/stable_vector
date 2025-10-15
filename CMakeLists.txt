@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(stable_vector)
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 23)  # if compilation fails, try:  set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(my_test my_test.cpp stable_vector.hpp)
