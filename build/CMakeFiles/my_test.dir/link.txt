@@ -1,0 +1,1 @@
+/usr/bin/c++ -fsanitize=address -Wl,--dependency-file=CMakeFiles/my_test.dir/link.d CMakeFiles/my_test.dir/my_test.cpp.o -o my_test

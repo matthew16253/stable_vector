@@ -1,0 +1,3 @@
+/home/admin/projects/programs/cpp_programs/data_structures/stable_vector/build/CMakeFiles/my_test.dir
+/home/admin/projects/programs/cpp_programs/data_structures/stable_vector/build/CMakeFiles/edit_cache.dir
+/home/admin/projects/programs/cpp_programs/data_structures/stable_vector/build/CMakeFiles/rebuild_cache.dir
