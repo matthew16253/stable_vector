@@ -8,6 +8,7 @@
 #include <list>
 #include <algorithm>
 #include <ranges>
+#include <scoped_allocator>
 #include <type_traits>
 
 
@@ -185,7 +186,8 @@ namespace my_adt
 				constexpr vector_chunk(vector_chunk<T, Allocator>&& other);
 				constexpr vector_chunk(vector_chunk<T, Allocator>&& other, const std::type_identity<Allocator>& allocator);
 
-				constexpr vector_chunk<T, Allocator>& operator=(vector_chunk<T, Allocator> other);
+				constexpr vector_chunk<T, Allocator>& operator=(const vector_chunk<T, Allocator>& other);
+				constexpr vector_chunk<T, Allocator>& operator=(vector_chunk<T, Allocator>&& other);
 				constexpr vector_chunk<T, Allocator>& operator=(std::initializer_list<T> init_list);
 
 				template <typename... Args>
@@ -218,6 +220,12 @@ namespace my_adt
 				
 				template <typename U, typename SwapAllocator>
 				friend constexpr void swap(vector_chunk<U, SwapAllocator>& a, vector_chunk<U, SwapAllocator>& b) noexcept;
+
+				template <typename U, typename SwapAllocator>
+				friend constexpr void swap_for_copy_assignment(vector_chunk<U, SwapAllocator>& a, vector_chunk<U, SwapAllocator>& b) noexcept;
+
+				template <typename U, typename SwapAllocator>
+				friend constexpr void swap_for_move_assignment(vector_chunk<U, SwapAllocator>& a, vector_chunk<U, SwapAllocator>& b) noexcept;
 
 				template <typename U, typename SVAllocator, typename SVChunkAllocator>
 				friend class my_adt::stable_vector;
@@ -429,7 +437,7 @@ namespace my_adt
 			struct uninit_tag {};
 
 			using chunk = detail::vector_chunk<T, Allocator>;
-			using list = std::list<chunk, ChunkAllocator>;
+			using list = std::list<chunk, std::scoped_allocator_adaptor<ChunkAllocator, Allocator>>;
 			using list_iterator = list::iterator;
 
 
@@ -545,7 +553,8 @@ namespace my_adt
 			constexpr stable_vector(stable_vector<T, Allocator, ChunkAllocator>&& other, const std::type_identity<Allocator>& allocator);
 			constexpr stable_vector(stable_vector<T, Allocator, ChunkAllocator>&& other, const std::type_identity<Allocator>& allocator, const std::type_identity<ChunkAllocator>& chunk_allocator);
 
-			constexpr stable_vector<T, Allocator, ChunkAllocator>& operator=(stable_vector<T, Allocator, ChunkAllocator> other);
+			constexpr stable_vector<T, Allocator, ChunkAllocator>& operator=(const stable_vector<T, Allocator, ChunkAllocator>& other);
+			constexpr stable_vector<T, Allocator, ChunkAllocator>& operator=(stable_vector<T, Allocator, ChunkAllocator>&& other);
 			constexpr stable_vector<T, Allocator, ChunkAllocator>& operator=(std::initializer_list<T> init_list);
 
 			void assign(std::size_t n, const T& val);
@@ -758,7 +767,25 @@ namespace my_adt
 			std::swap(a.m_begin, b.m_begin);
 			std::swap(a.m_size, b.m_size);
 			std::swap(a.m_capacity, b.m_capacity);
-			swap(a.m_allocator, b.m_allocator);
+			if constexpr (std::allocator_traits<Allocator>::propagate_on_container_swap) swap(a.m_allocator, b.m_allocator);
+		}
+
+		template <typename T, typename Allocator>
+		constexpr void swap_for_copy_assignment(vector_chunk<T, Allocator>& a, vector_chunk<T, Allocator>& b) noexcept
+		{
+			std::swap(a.m_begin, b.m_begin);
+			std::swap(a.m_size, b.m_size);
+			std::swap(a.m_capacity, b.m_capacity);
+			if constexpr (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment) swap(a.m_allocator, b.m_allocator);
+		}
+
+		template <typename T, typename Allocator>
+		constexpr void swap_for_move_assignment(vector_chunk<T, Allocator>& a, vector_chunk<T, Allocator>& b) noexcept
+		{
+			std::swap(a.m_begin, b.m_begin);
+			std::swap(a.m_size, b.m_size);
+			std::swap(a.m_capacity, b.m_capacity);
+			if constexpr (std::allocator_traits<Allocator>::propagate_on_container_move_assignment) swap(a.m_allocator, b.m_allocator);
 		}
 
 		template <typename T, typename Allocator>
@@ -894,7 +921,7 @@ namespace my_adt
 		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(std::from_range_t, Range&& range, const Allocator& allocator) : vector_chunk{range.begin(), range.end(), allocator}  {}
 
 		template <typename T, typename Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(const vector_chunk<T, Allocator>& other) : vector_chunk{Allocator{}}
+		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(const vector_chunk<T, Allocator>& other) : vector_chunk{other.m_allocator}
 		{
 			copy_initialize(other);
 		}
@@ -906,8 +933,8 @@ namespace my_adt
 		}
 
 		template <typename T, typename Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(detail::vector_chunk<T, Allocator>&& other) : m_allocator(Allocator{}), m_begin(std::move(other.m_begin)),
-																												m_size(other.m_size), m_capacity(other.m_capacity)
+		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(detail::vector_chunk<T, Allocator>&& other) : m_allocator(other.m_allocator), m_begin(std::move(other.m_begin)),
+																												 m_size(other.m_size), m_capacity(other.m_capacity)
 		{
 			other.m_size = 0;
 			other.m_capacity = 0;
@@ -916,16 +943,17 @@ namespace my_adt
 		template <typename T, typename Allocator>
 		constexpr detail::vector_chunk<T, Allocator>::vector_chunk(detail::vector_chunk<T, Allocator>&& other,
 																const std::type_identity<Allocator>& allocator) : m_allocator(allocator), m_begin(std::move(other.begin())),
-																													m_size(other.m_size), m_capacity(other.m_capacity)
+																												  m_size(other.m_size), m_capacity(other.m_capacity)
 		{
 			other.m_size = 0;
 			other.m_capacity = 0;
 		}
 
 		template <typename T, typename Allocator>
-		constexpr detail::vector_chunk<T, Allocator>& detail::vector_chunk<T, Allocator>::operator=(vector_chunk<T, Allocator> other)
+		constexpr detail::vector_chunk<T, Allocator>& detail::vector_chunk<T, Allocator>::operator=(const vector_chunk<T, Allocator>& other)
 		{
-			swap(*this, other);
+			vector_chunk<T, Allocator> other_copy = other;
+			swap(*this, other_copy);
 			return *this;
 		}
 
@@ -1753,9 +1781,26 @@ namespace my_adt
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>& stable_vector<T, Allocator, ChunkAllocator>::operator=(stable_vector<T, Allocator, ChunkAllocator> other)
+	constexpr stable_vector<T, Allocator, ChunkAllocator>& stable_vector<T, Allocator, ChunkAllocator>::operator=(const stable_vector<T, Allocator, ChunkAllocator>& other)
 	{
+		stable_vector<T, Allocator, ChunkAllocator> other_copy = other;
 		swap(*this, other);
+		return *this;
+	}
+
+	template <typename T, typename Allocator, typename ChunkAllocator>
+	constexpr stable_vector<T, Allocator, ChunkAllocator>& stable_vector<T, Allocator, ChunkAllocator>::operator=(stable_vector<T, Allocator, ChunkAllocator>&& other)
+	{
+		stable_vector<T, Allocator, ChunkAllocator> other_copy = other;
+		swap(*this, other);
+		return *this;
+	}
+
+	template <typename T, typename Allocator, typename ChunkAllocator>
+	constexpr stable_vector<T, Allocator, ChunkAllocator>& stable_vector<T, Allocator, ChunkAllocator>::operator=(std::initializer_list<T> init_list)
+	{
+		stable_vector<T, Allocator, ChunkAllocator> new_vec(init_list);
+		swap(*this, new_vec);
 		return *this;
 	}
 
