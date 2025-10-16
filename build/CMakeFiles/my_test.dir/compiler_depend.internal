@@ -240,6 +240,7 @@ CMakeFiles/my_test.dir/my_test.cpp.o
  /usr/include/c++/15.2.1/pstl/glue_memory_defs.h
  /usr/include/c++/15.2.1/pstl/pstl_config.h
  /usr/include/c++/15.2.1/ranges
+ /usr/include/c++/15.2.1/scoped_allocator
  /usr/include/c++/15.2.1/span
  /usr/include/c++/15.2.1/stdexcept
  /usr/include/c++/15.2.1/streambuf

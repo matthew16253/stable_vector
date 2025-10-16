@@ -239,6 +239,7 @@ CMakeFiles/my_test.dir/my_test.cpp.o: /home/admin/projects/programs/cpp_programs
   /usr/include/c++/15.2.1/pstl/glue_memory_defs.h \
   /usr/include/c++/15.2.1/pstl/pstl_config.h \
   /usr/include/c++/15.2.1/ranges \
+  /usr/include/c++/15.2.1/scoped_allocator \
   /usr/include/c++/15.2.1/span \
   /usr/include/c++/15.2.1/stdexcept \
   /usr/include/c++/15.2.1/streambuf \
@@ -405,6 +406,8 @@ my_test: /usr/lib/Scrt1.o \
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/error_constants.h:
+
+/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h:
 
 /usr/include/assert.h:
 
@@ -932,6 +935,8 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 
 /usr/include/c++/15.2.1/memory:
 
+/usr/include/c++/15.2.1/scoped_allocator:
+
 /usr/include/c++/15.2.1/ranges:
 
 /usr/include/c++/15.2.1/type_traits:
@@ -955,5 +960,3 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++locale.h:
-
-/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h:
