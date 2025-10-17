@@ -9,7 +9,6 @@
 #include <list>
 #include <algorithm>
 #include <ranges>
-#include <scoped_allocator>
 #include <type_traits>
 
 
@@ -153,11 +152,11 @@ namespace my_adt
 
 				constexpr void copy_initialize(const vector_chunk<T, Allocator>& other);
 
-				constexpr raw_iterator raw_begin() noexcept;
-				constexpr raw_iterator raw_end() noexcept;
-				constexpr raw_iterator raw_cap_end() noexcept;
-				constexpr raw_iterator raw_before_end() noexcept;
-				constexpr raw_iterator raw_before_begin() noexcept;
+				constexpr decltype(auto) raw_begin(this auto&& self) noexcept;
+				constexpr decltype(auto) raw_end(this auto&& self) noexcept;
+				constexpr decltype(auto) raw_cap_end(this auto&& self) noexcept;
+				constexpr decltype(auto) raw_before_end(this auto&& self) noexcept;
+				constexpr decltype(auto) raw_before_begin(this auto&& self) noexcept;
 
 
 
@@ -189,8 +188,8 @@ namespace my_adt
 						constexpr bool operator==(reverse_iterator other) const noexcept;
 						constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-						constexpr reference operator*() noexcept;
-						constexpr pointer operator->() noexcept;
+						constexpr reference operator*() const noexcept;
+						constexpr pointer operator->() const noexcept;
 
 						template <typename U, typename SwapAllocator>
 						friend constexpr void swap(vector_chunk<U, SwapAllocator>::raw_iterator& a, vector_chunk<U, SwapAllocator>::raw_iterator& b) noexcept;
@@ -227,10 +226,10 @@ namespace my_adt
 
 				template <typename... Args>
 				requires std::constructible_from<T, Args...>
-				constexpr bool emplace_back(Args&&... args);
-				constexpr bool push_back(const T& val);
-				constexpr bool push_back(T&& val);
-				constexpr bool pop_back();
+				constexpr void emplace_back(Args&&... args);
+				constexpr void push_back(const T& val);
+				constexpr void push_back(T&& val);
+				constexpr void pop_back();
 
 				constexpr bool resize(std::size_t n) noexcept;
 
@@ -295,8 +294,8 @@ namespace my_adt
 						constexpr bool operator==(reverse_iterator other) const noexcept;
 						constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-						constexpr reference operator*() noexcept;
-						constexpr pointer operator->() noexcept;
+						constexpr reference operator*() const noexcept;
+						constexpr pointer operator->() const noexcept;
 
 						template <typename U, typename SVAllocator, typename SVChunkAllocator>
 						requires valid_stable_vector_template_args<U, SVAllocator, SVChunkAllocator>
@@ -323,7 +322,7 @@ namespace my_adt
 
 
 						constexpr const_iterator() noexcept;
-						constexpr const_iterator(raw_iterator it);
+						constexpr const_iterator(raw_iterator it) noexcept;
 						constexpr const_iterator(pointer ptr) noexcept;
 
 						constexpr const_iterator& operator++() noexcept;
@@ -338,8 +337,8 @@ namespace my_adt
 						constexpr bool operator==(reverse_iterator other) const noexcept;
 						constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-						constexpr reference operator*() noexcept;
-						constexpr pointer operator->() noexcept;
+						constexpr reference operator*() const noexcept;
+						constexpr pointer operator->() const noexcept;
 
 						template <typename U, typename SVAllocator, typename SVChunkAllocator>
 						requires valid_stable_vector_template_args<U, SVAllocator, SVChunkAllocator>
@@ -381,8 +380,8 @@ namespace my_adt
 						constexpr bool operator==(reverse_iterator other) const noexcept;
 						constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-						constexpr reference operator*() noexcept;
-						constexpr pointer operator->() noexcept;
+						constexpr reference operator*() const noexcept;
+						constexpr pointer operator->() const noexcept;
 
 						template <typename U, typename SVAllocator, typename SVChunkAllocator>
 						requires valid_stable_vector_template_args<U, SVAllocator, SVChunkAllocator>
@@ -424,8 +423,8 @@ namespace my_adt
 						constexpr bool operator==(reverse_iterator other) const noexcept;
 						constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-						constexpr reference operator*() noexcept;
-						constexpr pointer operator->() noexcept;
+						constexpr reference operator*() const noexcept;
+						constexpr pointer operator->() const noexcept;
 
 						template <typename U, typename SVAllocator, typename SVChunkAllocator>
 						requires valid_stable_vector_template_args<U, SVAllocator, SVChunkAllocator>
@@ -511,10 +510,10 @@ namespace my_adt
 			constexpr bool has_capacity() const noexcept;
 			constexpr bool one_away_from_full() const noexcept;
 
-			constexpr raw_iterator raw_begin() noexcept;
-			constexpr raw_iterator raw_end() noexcept;
-			constexpr raw_iterator raw_before_end() noexcept;
-			constexpr raw_iterator raw_before_begin() noexcept;
+			constexpr decltype(auto) raw_begin(this auto&& self) noexcept;
+			constexpr decltype(auto) raw_end(this auto&& self) noexcept;
+			constexpr decltype(auto) raw_before_end(this auto&& self) noexcept;
+			constexpr decltype(auto) raw_before_begin(this auto&& self) noexcept;
 
 
 
@@ -543,8 +542,8 @@ namespace my_adt
 					constexpr void increment() noexcept;
 					constexpr void decrement() noexcept;
 
-					constexpr list_iterator_type& get_list_iterator() noexcept;
-					constexpr chunk_iterator_type& get_chunk_iterator() noexcept;
+					constexpr decltype(auto) get_list_iterator(this auto&& self) noexcept;
+					constexpr decltype(auto) get_chunk_iterator(this auto&& self) noexcept;
 					
 				public:
 					constexpr raw_iterator() noexcept;
@@ -562,8 +561,8 @@ namespace my_adt
 					constexpr bool operator==(reverse_iterator other) const noexcept;
 					constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-					constexpr reference operator*() noexcept;
-					constexpr pointer operator->() noexcept;
+					constexpr reference operator*() const noexcept;
+					constexpr pointer operator->() const noexcept;
 
 					friend class stable_vector<T, Allocator, ChunkAllocator>;
 
@@ -669,8 +668,8 @@ namespace my_adt
 					constexpr bool operator==(reverse_iterator other) const noexcept;
 					constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-					constexpr reference operator*() noexcept;
-					constexpr pointer operator->() noexcept;
+					constexpr reference operator*() const noexcept;
+					constexpr pointer operator->() const noexcept;
 
 					friend class stable_vector<T, Allocator, ChunkAllocator>;
 
@@ -708,8 +707,8 @@ namespace my_adt
 					constexpr bool operator==(reverse_iterator other) const noexcept;
 					constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-					constexpr reference operator*() noexcept;
-					constexpr pointer operator->() noexcept;
+					constexpr reference operator*() const noexcept;
+					constexpr pointer operator->() const noexcept;
 
 					friend class stable_vector<T, Allocator, ChunkAllocator>;
 
@@ -747,8 +746,8 @@ namespace my_adt
 					constexpr bool operator==(reverse_iterator other) const noexcept;
 					constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-					constexpr reference operator*() noexcept;
-					constexpr pointer operator->() noexcept;
+					constexpr reference operator*() const noexcept;
+					constexpr pointer operator->() const noexcept;
 
 					friend class stable_vector<T, Allocator, ChunkAllocator>;
 
@@ -786,8 +785,8 @@ namespace my_adt
 					constexpr bool operator==(reverse_iterator other) const noexcept;
 					constexpr bool operator==(const_reverse_iterator other) const noexcept;
 
-					constexpr reference operator*() noexcept;
-					constexpr pointer operator->() noexcept;
+					constexpr reference operator*() const noexcept;
+					constexpr pointer operator->() const noexcept;
 
 					friend class stable_vector<T, Allocator, ChunkAllocator>;
 
@@ -830,7 +829,7 @@ namespace my_adt
 			std::swap(a.m_begin, b.m_begin);
 			std::swap(a.m_size, b.m_size);
 			std::swap(a.m_capacity, b.m_capacity);
-			if constexpr (std::allocator_traits<Allocator>::propagate_on_container_move_assignment) swap(a.m_allocator, b.m_allocator);
+			if constexpr (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) swap(a.m_allocator, b.m_allocator);
 		}
 
 		template <typename T, typename Allocator>
@@ -848,7 +847,7 @@ namespace my_adt
 			std::size_t new_capacity = other.m_size;
 			m_begin_pointer new_begin(std::allocator_traits<Allocator>::allocate(m_allocator, new_capacity), chunk_deleter{m_allocator, 0, new_capacity});
 
-			std::uninitialized_copy(other.begin(), other.end(), new_begin);
+			std::uninitialized_copy(other.cbegin(), other.cend(), new_begin.get());
 
 			m_begin = std::move(new_begin);
 
@@ -860,39 +859,39 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator detail::vector_chunk<T, Allocator>::raw_begin() noexcept
+		constexpr decltype(auto) detail::vector_chunk<T, Allocator>::raw_begin(this auto&& self) noexcept
 		{
-			return raw_iterator{m_begin.get()};
+			return raw_iterator{self.m_begin.get()};
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator detail::vector_chunk<T, Allocator>::raw_end() noexcept
+		constexpr decltype(auto) detail::vector_chunk<T, Allocator>::raw_end(this auto&& self) noexcept
 		{
-			return raw_iterator{m_begin.get() + m_size};
+			return raw_iterator{self.m_begin.get() + self.m_size};
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator detail::vector_chunk<T, Allocator>::raw_cap_end() noexcept
+		constexpr decltype(auto) detail::vector_chunk<T, Allocator>::raw_cap_end(this auto&& self) noexcept
 		{
-			return raw_iterator{m_begin.get() + m_capacity};
+			return raw_iterator{self.m_begin.get() + self.m_capacity};
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator detail::vector_chunk<T, Allocator>::raw_before_end() noexcept
+		constexpr decltype(auto) detail::vector_chunk<T, Allocator>::raw_before_end(this auto&& self) noexcept
 		{
-			if (empty()) return raw_begin();
-			else return std::prev(raw_end());
+			if (self.empty()) return self.raw_begin();
+			else return std::prev(self.raw_end());
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator detail::vector_chunk<T, Allocator>::raw_before_begin() noexcept
+		constexpr decltype(auto) detail::vector_chunk<T, Allocator>::raw_before_begin(this auto&& self) noexcept
 		{
-			if (empty()) return raw_begin();
-			else return std::prev(raw_begin());
+			if (self.empty()) return self.raw_begin();
+			else return std::prev(self.raw_begin());
 		}
 
 		template <typename T, typename Allocator>
@@ -1026,8 +1025,7 @@ namespace my_adt
 		requires valid_vector_chunk_template_args<T, Allocator>
 		constexpr detail::vector_chunk<T, Allocator>& detail::vector_chunk<T, Allocator>::operator=(vector_chunk<T, Allocator>&& other)
 		{
-			vector_chunk<T, Allocator> other_copy = other;
-			swap_for_move_assignment(*this, other_copy);
+			swap_for_move_assignment(*this, other);
 			return *this;
 		}
 
@@ -1042,52 +1040,34 @@ namespace my_adt
 		requires valid_vector_chunk_template_args<T, Allocator>
 		template <typename... Args>
 		requires std::constructible_from<T, Args...>
-		constexpr bool detail::vector_chunk<T, Allocator>::emplace_back(Args&&... args)
+		constexpr void detail::vector_chunk<T, Allocator>::emplace_back(Args&&... args)
 		{
-			if (full())
-			{
-				return false;
-			}
-			else
-			{
-				std::allocator_traits<Allocator>::construct(m_allocator, m_begin.get() + m_size, std::forward<Args>(args)...);
-				m_size++;
-				update_deleter_size();
-
-				return true;
-			}
+			std::allocator_traits<Allocator>::construct(m_allocator, m_begin.get() + m_size, std::forward<Args>(args)...);
+			m_size++;
+			update_deleter_size();
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr bool detail::vector_chunk<T, Allocator>::push_back(const T& val)
+		constexpr void detail::vector_chunk<T, Allocator>::push_back(const T& val)
 		{
-			return emplace_back(val);
+			emplace_back(val);
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr bool detail::vector_chunk<T, Allocator>::push_back(T&& val)
+		constexpr void detail::vector_chunk<T, Allocator>::push_back(T&& val)
 		{
-			return emplace_back(std::move(val));
+			emplace_back(std::move(val));
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr bool detail::vector_chunk<T, Allocator>::pop_back()
+		constexpr void detail::vector_chunk<T, Allocator>::pop_back()
 		{
-			if (m_size == 0)
-			{
-				return false;
-			}
-			else
-			{
-				std::allocator_traits<Allocator>::destroy(m_allocator, m_begin.get() + m_size - 1);
-				m_size--;
-				update_deleter_size();
-				
-				return true;
-			}
+			std::allocator_traits<Allocator>::destroy(m_allocator, m_begin.get() + m_size - 1);
+			m_size--;
+			update_deleter_size();
 		}
 
 		template <typename T, typename Allocator>
@@ -1303,14 +1283,14 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator::reference detail::vector_chunk<T, Allocator>::raw_iterator::operator*() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::raw_iterator::reference detail::vector_chunk<T, Allocator>::raw_iterator::operator*() const noexcept
 		{
 			return *m_ptr;
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::raw_iterator::pointer detail::vector_chunk<T, Allocator>::raw_iterator::operator->() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::raw_iterator::pointer detail::vector_chunk<T, Allocator>::raw_iterator::operator->() const noexcept
 		{
 			return m_ptr;
 		}
@@ -1402,14 +1382,14 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::iterator::reference detail::vector_chunk<T, Allocator>::iterator::operator*() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::iterator::reference detail::vector_chunk<T, Allocator>::iterator::operator*() const noexcept
 		{
 			return raw_iterator::operator*();
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::iterator::pointer detail::vector_chunk<T, Allocator>::iterator::operator->() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::iterator::pointer detail::vector_chunk<T, Allocator>::iterator::operator->() const noexcept
 		{
 			return raw_iterator::operator->();
 		}
@@ -1433,6 +1413,10 @@ namespace my_adt
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
 		constexpr detail::vector_chunk<T, Allocator>::const_iterator::const_iterator() noexcept : raw_iterator{}  {}
+
+		template <typename T, typename Allocator>
+		requires valid_vector_chunk_template_args<T, Allocator>
+		constexpr detail::vector_chunk<T, Allocator>::const_iterator::const_iterator(raw_iterator it) noexcept : raw_iterator{}  {}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
@@ -1496,14 +1480,14 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::const_iterator::reference detail::vector_chunk<T, Allocator>::const_iterator::operator*() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::const_iterator::reference detail::vector_chunk<T, Allocator>::const_iterator::operator*() const noexcept
 		{
 			return raw_iterator::operator*();
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::const_iterator::pointer detail::vector_chunk<T, Allocator>::const_iterator::operator->() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::const_iterator::pointer detail::vector_chunk<T, Allocator>::const_iterator::operator->() const noexcept
 		{
 			return raw_iterator::operator->();
 		}
@@ -1587,14 +1571,14 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::reverse_iterator::reference detail::vector_chunk<T, Allocator>::reverse_iterator::operator*() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::reverse_iterator::reference detail::vector_chunk<T, Allocator>::reverse_iterator::operator*() const noexcept
 		{
 			return raw_iterator::operator*();
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::reverse_iterator::pointer detail::vector_chunk<T, Allocator>::reverse_iterator::operator->() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::reverse_iterator::pointer detail::vector_chunk<T, Allocator>::reverse_iterator::operator->() const noexcept
 		{
 			return raw_iterator::operator->();
 		}
@@ -1681,14 +1665,14 @@ namespace my_adt
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::const_reverse_iterator::reference detail::vector_chunk<T, Allocator>::const_reverse_iterator::operator*() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::const_reverse_iterator::reference detail::vector_chunk<T, Allocator>::const_reverse_iterator::operator*() const noexcept
 		{
 			return raw_iterator::operator*();
 		}
 
 		template <typename T, typename Allocator>
 		requires valid_vector_chunk_template_args<T, Allocator>
-		constexpr detail::vector_chunk<T, Allocator>::const_reverse_iterator::pointer detail::vector_chunk<T, Allocator>::const_reverse_iterator::operator->() noexcept
+		constexpr detail::vector_chunk<T, Allocator>::const_reverse_iterator::pointer detail::vector_chunk<T, Allocator>::const_reverse_iterator::operator->() const noexcept
 		{
 			return raw_iterator::operator->();
 		}
@@ -1799,7 +1783,7 @@ namespace my_adt
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
 	constexpr bool stable_vector<T, Allocator, ChunkAllocator>::current_chunk_has_capacity() const noexcept
 	{
-		chunk& current_chunk = *(m_end.get_list_iterator());
+		const chunk& current_chunk = *(m_end.get_list_iterator());
 		return current_chunk.has_capacity();
 	}
 
@@ -2027,6 +2011,7 @@ namespace my_adt
 			catch (const std::exception& e)
 			{
 				last_chunk.pop_back();
+				m_end.get_chunk_iterator() = last_chunk.end();
 				throw;
 			}
 		}
@@ -2190,66 +2175,66 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::list_iterator_type& stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::get_list_iterator() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::get_list_iterator(this auto&& self) noexcept
 	{
-		return m_list_iterator;
+		return (self.m_list_iterator);
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::chunk_iterator_type& stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::get_chunk_iterator() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::get_chunk_iterator(this auto&& self) noexcept
 	{
-		return m_chunk_iterator;
+		return (self.m_chunk_iterator);
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator stable_vector<T, Allocator, ChunkAllocator>::raw_begin() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_begin(this auto&& self) noexcept
 	{
-		list_iterator second_it = std::next(m_chunks.begin());
+		list_iterator second_it = std::next(self.m_chunks.begin());
 		chunk& second = *second_it;
 		return raw_iterator{second_it, second.begin()};
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator stable_vector<T, Allocator, ChunkAllocator>::raw_end() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_end(this auto&& self) noexcept
 	{
-		if (!has_capacity())
+		if (!self.has_capacity())
 		{
-			return raw_begin();
+			return self.raw_begin();
 		}
 		else
 		{
-			return m_end;
+			return self.m_end;
 		}
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator stable_vector<T, Allocator, ChunkAllocator>::raw_before_end() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_before_end(this auto&& self) noexcept
 	{
-		if (!has_capacity())
+		if (!self.has_capacity())
 		{
-			return raw_begin();
+			return self.raw_begin();
 		}
 		else
 		{
-			return std::prev(raw_end());
+			return std::prev(self.raw_end());
 		}
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator stable_vector<T, Allocator, ChunkAllocator>::raw_before_begin() noexcept
+	constexpr decltype(auto) stable_vector<T, Allocator, ChunkAllocator>::raw_before_begin(this auto&& self) noexcept
 	{
-		if (!has_capacity())
+		if (!self.has_capacity())
 		{
-			return raw_begin();
+			return self.raw_begin();
 		}
 		else
 		{
-			return std::prev(raw_begin());
+			return std::prev(self.raw_begin());
 		}
 	}
 
@@ -2334,14 +2319,14 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::operator*() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::operator*() const noexcept
 	{
 		return *m_chunk_iterator;
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::operator->() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::raw_iterator::operator->() const noexcept
 	{
 		return &*m_chunk_iterator;
 	}
@@ -2428,14 +2413,14 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::iterator::reference stable_vector<T, Allocator, ChunkAllocator>::iterator::operator*() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::iterator::reference stable_vector<T, Allocator, ChunkAllocator>::iterator::operator*() const noexcept
 	{
 		return raw_iterator::operator*();
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::iterator::operator->() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::iterator::operator->() const noexcept
 	{
 		return raw_iterator::operator->();
 	}
@@ -2524,14 +2509,14 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::const_iterator::operator*() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::const_iterator::operator*() const noexcept
 	{
 		return raw_iterator::operator*();
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::const_iterator::operator->() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::const_iterator::operator->() const noexcept
 	{
 		return raw_iterator::operator->();
 	}
@@ -2623,14 +2608,14 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::operator*() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::operator*() const noexcept
 	{
 		return raw_iterator::operator*();
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::operator->() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::reverse_iterator::operator->() const noexcept
 	{
 		return raw_iterator::operator->();
 	}
@@ -2719,14 +2704,14 @@ namespace my_adt
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::operator*() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::reference stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::operator*() const noexcept
 	{
 		return raw_iterator::operator*();
 	}
 
 	template <typename T, typename Allocator, typename ChunkAllocator>
 	requires valid_stable_vector_template_args<T, Allocator, ChunkAllocator>
-	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::operator->() noexcept
+	constexpr stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::pointer stable_vector<T, Allocator, ChunkAllocator>::const_reverse_iterator::operator->() const noexcept
 	{
 		return raw_iterator::operator->();
 	}
