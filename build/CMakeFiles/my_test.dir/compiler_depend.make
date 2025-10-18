@@ -46,9 +46,7 @@ CMakeFiles/my_test.dir/my_test.cpp.o: /home/admin/projects/programs/cpp_programs
   /usr/include/bits/stdint-intn.h \
   /usr/include/bits/stdint-least.h \
   /usr/include/bits/stdint-uintn.h \
-  /usr/include/bits/stdio.h \
   /usr/include/bits/stdio_lim.h \
-  /usr/include/bits/stdlib-bsearch.h \
   /usr/include/bits/stdlib-float.h \
   /usr/include/bits/struct_mutex.h \
   /usr/include/bits/struct_rwlock.h \
@@ -428,7 +426,13 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/c++/15.2.1/typeinfo:
 
-/usr/include/c++/15.2.1/text_encoding:
+/usr/include/c++/15.2.1/bits/invoke.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/c++/15.2.1/bits/stl_function.h:
+
+/usr/include/c++/15.2.1/pstl/glue_memory_defs.h:
 
 /usr/include/c++/15.2.1/bits/exception_ptr.h:
 
@@ -486,6 +490,8 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/bits/uio_lim.h:
 
+/usr/include/c++/15.2.1/bits/ios_base.h:
+
 /usr/include/c++/15.2.1/stdexcept:
 
 /usr/include/c++/15.2.1/cctype:
@@ -514,6 +520,10 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/c++/15.2.1/bits/chrono.h:
 
+/usr/include/c++/15.2.1/bits/stl_iterator_base_funcs.h:
+
+/usr/include/c++/15.2.1/chrono:
+
 /usr/include/bits/struct_rwlock.h:
 
 /usr/include/bits/types/mbstate_t.h:
@@ -533,12 +543,6 @@ my_test: /usr/lib/Scrt1.o \
 /usr/include/bits/types/__locale_t.h:
 
 /usr/include/c++/15.2.1/bits/sstream.tcc:
-
-/usr/include/bits/types/__fpos64_t.h:
-
-/usr/include/c++/15.2.1/streambuf:
-
-/usr/include/c++/15.2.1/bits/ranges_algobase.h:
 
 /usr/include/bits/errno.h:
 
@@ -610,6 +614,8 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/c++/15.2.1/bits/stl_bvector.h:
 
+/usr/include/c++/15.2.1/text_encoding:
+
 /usr/include/errno.h:
 
 /usr/include/c++/15.2.1/tuple:
@@ -617,6 +623,10 @@ my_test: /usr/lib/Scrt1.o \
 /usr/include/bits/getopt_posix.h:
 
 /usr/include/c++/15.2.1/bits/vector.tcc:
+
+/usr/include/c++/15.2.1/ios:
+
+/usr/include/bits/thread-shared-types.h:
 
 /usr/include/c++/15.2.1/bits/align.h:
 
@@ -692,18 +702,6 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/bits/syscall.h:
 
-/usr/include/bits/endian.h:
-
-/usr/include/c++/15.2.1/bits/invoke.h:
-
-/usr/include/c++/15.2.1/bits/stl_function.h:
-
-/usr/include/bits/thread-shared-types.h:
-
-/usr/include/c++/15.2.1/ios:
-
-/usr/include/c++/15.2.1/pstl/glue_memory_defs.h:
-
 /usr/include/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/c++/15.2.1/pstl/pstl_config.h:
@@ -728,6 +726,12 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/c++/15.2.1/bits/codecvt.h:
 
+/usr/include/bits/types/__fpos64_t.h:
+
+/usr/include/c++/15.2.1/streambuf:
+
+/usr/include/c++/15.2.1/bits/ranges_algobase.h:
+
 /usr/include/bits/waitstatus.h:
 
 /usr/include/bits/wchar.h:
@@ -736,29 +740,7 @@ my_test: /usr/lib/Scrt1.o \
 
 /usr/include/bits/setjmp.h:
 
-/usr/include/bits/stdio.h:
-
-/usr/include/c++/15.2.1/bits/out_ptr.h:
-
-CMakeFiles/my_test.dir/my_test.cpp.o:
-
-/usr/include/c++/15.2.1/new:
-
-/usr/include/bits/stdlib-bsearch.h:
-
-/usr/include/features.h:
-
-/usr/include/bits/sched.h:
-
-/usr/include/bits/types/__FILE.h:
-
 /usr/include/bits/types/time_t.h:
-
-/usr/include/pthread.h:
-
-/usr/include/c++/15.2.1/bits/stl_uninitialized.h:
-
-/usr/include/c++/15.2.1/bits/stl_algo.h:
 
 /usr/include/c++/15.2.1/ext/numeric_traits.h:
 
@@ -766,11 +748,11 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 
 /usr/include/c++/15.2.1/format:
 
-/usr/include/c++/15.2.1/bits/ios_base.h:
+/usr/include/features.h:
 
-/usr/include/c++/15.2.1/chrono:
+/usr/include/bits/sched.h:
 
-/usr/include/c++/15.2.1/bits/stl_iterator_base_funcs.h:
+/usr/include/bits/types/__FILE.h:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/messages_members.h:
 
@@ -834,6 +816,12 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 
 /usr/include/c++/15.2.1/bits/ptr_traits.h:
 
+/usr/include/c++/15.2.1/bits/out_ptr.h:
+
+CMakeFiles/my_test.dir/my_test.cpp.o:
+
+/usr/include/c++/15.2.1/new:
+
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++allocator.h:
 
 /usr/include/c++/15.2.1/bits/range_access.h:
@@ -882,6 +870,12 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 
 /usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h:
 
+/usr/include/pthread.h:
+
+/usr/include/c++/15.2.1/bits/stl_algo.h:
+
+/usr/include/c++/15.2.1/bits/stl_uninitialized.h:
+
 /usr/include/asm-generic/errno.h:
 
 /usr/include/c++/15.2.1/bits/stl_vector.h:
@@ -910,9 +904,9 @@ CMakeFiles/my_test.dir/my_test.cpp.o:
 
 /usr/include/c++/15.2.1/bits/unicode-data.h:
 
-/usr/include/c++/15.2.1/bits/unicode.h:
-
 /usr/include/bits/unistd_ext.h:
+
+/usr/include/c++/15.2.1/bits/unicode.h:
 
 /usr/include/c++/15.2.1/ext/alloc_traits.h:
 
